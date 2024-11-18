@@ -1,0 +1,149 @@
+# OSINT: Private Github Repository 
+
+1. Googling "Bob Robizillo", I found this [github gist](https://gist.github.com/bob-193/f0fe97c23c507bc2c29a087e1d7682d0)
+
+2. According to Bob's message, the base64 string is most likely a file containing an SSH key. So, I first tried to decode the string to see what type of file I was dealing with:
+
+```python
+import base64
+
+encoded_sample = "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"
+decoded = base64.b64decode(encoded_sample)
+
+print(decoded)
+# b'PK\x03\x04\x14\x00\x00\x00\x08...'
+```
+
+3. Checking out the [file signatures wiki](https://en.wikipedia.org/wiki/List_of_file_signatures), I noticed that zip files normally have the `PK` signature, so I continued decoding this string into a zip file and then into an id_rsa file for the SSH key
+```python
+import base64
+import zipfile
+import os
+
+encoded_sample = "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"
+decoded = base64.b64decode(encoded_sample)
+
+with open('key.zip', 'wb') as f:
+    f.write(decoded)
+
+with zipfile.ZipFile('key.zip', 'r') as zip_ref:
+    zip_ref.extract('id_rsa')
+```
+
+id_rsa:
+```
+-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+NhAAAAAwEAAQAAAYEA2VMBgH/+tCMWx0KvI93adov6hAIH/7TPBG7Gz9bzRobMO8DsG1IK
+3T0ZdsmtFEMmBUYQFCbIVZzgHKOQ4RriXwsYB6CCTjCDY3fkfsV52FlIVbpYGDGtzagD4R
++sve0VX21sOV0Q/5tLGanamXl4e1Fmc53JLnsed56AkQpsjXJ/3hdvHwntaCv7f5oD76rz
+VtB29On2qCfpTkBQ0t4quLlXstQIZiMoNTPKHYivAC96/eg6I/iROxqXSEX1B6bZa1F0Vx
+ilQruDUxV3XKMhiLmheSW8xbjG+qjkftR62QXZl16TrzmcSvzLebRyPDVcPcHJwL5dE6t5
+pFaEGAHjSIVm4Im8fvQ8kSWOVZTTnNQvBqXtrwKJhs4RWjAbE2CuxtvuPPBaB5oyWEjpzv
+zaW5PuWseb1/BEiC9TWiQyei8rAZLSP3YS1w1l8bw4KIqYCBvbaooE+W5+EPj7+zmOaROd
+TvmTluHpuQV+P+MOn2qVwUdWjdRPG2Zi0RmKZO/TAAAFgERaWudEWlrnAAAAB3NzaC1yc2
+EAAAGBANlTAYB//rQjFsdCryPd2naL+oQCB/+0zwRuxs/W80aGzDvA7BtSCt09GXbJrRRD
+JgVGEBQmyFWc4ByjkOEa4l8LGAeggk4wg2N35H7FedhZSFW6WBgxrc2oA+EfrL3tFV9tbD
+ldEP+bSxmp2pl5eHtRZnOdyS57HneegJEKbI1yf94Xbx8J7Wgr+3+aA++q81bQdvTp9qgn
+6U5AUNLeKri5V7LUCGYjKDUzyh2IrwAvev3oOiP4kTsal0hF9Qem2WtRdFcYpUK7g1MVd1
+yjIYi5oXklvMW4xvqo5H7UetkF2Zdek685nEr8y3m0cjw1XD3BycC+XROreaRWhBgB40iF
+ZuCJvH70PJEljlWU05zULwal7a8CiYbOEVowGxNgrsbb7jzwWgeaMlhI6c782luT7lrHm9
+fwRIgvU1okMnovKwGS0j92EtcNZfG8OCiKmAgb22qKBPlufhD4+/s5jmkTnU75k5bh6bkF
+fj/jDp9qlcFHVo3UTxtmYtEZimTv0wAAAAMBAAEAAAGAJU48acSPAnkrhdUKn4uL3uG0hU
+ib+uccylQByNfLNwYYtQEvBpmUx9mfL2b7UQkd07XtOKhXp2qghgoF6r5ksZAD9fs1oxps
+03xXOvPHML5SznSIfs64WR9IWzLGwmuaSaFM/KPfMSGFSMiBf+r8JZ8ZiStCx7nWxw3sX/
+l8HOPU01kOeDOKD2HNcGAN4OxljTeH1A79imwffpFHzorYppEaXtZLAs1yL3/OaDd4Yv3D
+jSZ6JIac15p+8acgosmfI+8JTwnW09s8lGmpiVLKGEnxZA9Q+TeQPfo58iiEy5ndxtyKe2
+BKkSUjfmqvCH8V/z769QphzZ6GhoAefoAGb3GMNwsnjVsvhgNtYTptuhgJfL1iRt2PtLaC
+sFC/H4gzHj3WmCWj0AqhCuEygPxTIVA2fx/4uA4VCL6CkNQ/U+IIXjZsNlTTw+vC6Fmk9N
+s7e1wrZ7GF2QSTL4T52t0oEO101aLtGJvq95cBOqBOJ1q90GuiEYeNdUZ8G3bW4FKhAAAA
+wGuEkWmDYQ81u7GnUZaMfvHu5SxpksSv9LL5JZvZHerm/20KzjhoRHc2oW6nQZ5r5Ipvoa
+YXhCx+pWMnxkXjtt16RCBX/Ii7RvMDlN6rgbfq8pdmftgDfeSBII0NG+EY/s4uWWW2JVlr
+b08dj7MkZG72PXXVrUNSNNIWZBFrlLLN6UeD071BfPTv4fWTBs/3tf68n0SPsXsr7NbBJx
+jce3nNlYuGkap01SrUQlF72hm9IjtpoEdNEpiQ81x9MefYCAAAAMEA8SztbVCnTSi35hOA
+Gsd106kDCahYIkBG5E1PVausBQrCruVXWo6Az23VehNrjJFqV88dxMYrzXqgW9kHQ1anUo
+ZSJEhj6+FYuN1Jgjmm7xzhC38N3YkLcXuojiDxkUSbkChFPj+JkEA/63c/XRZ6WOmo0A5K
+be3bOMzMJ/Cu1yhqxCZ0f2uOYUBMG3VFIu5Wg5RYIujYmcEUDZIoT7FkmEUJOfg3Q82PlX
+Y3yk8GpGkEJeHcx3ZFseSGIueiDwQJAAAAwQDmrsLwzy+SxG/02lOq+zkhm6mhlNp0ZmYz
+s6X9uzIKH712UxEY2WS5DPd3C87Fh06kb2nD3ozu++qCLwD7HSw55j1dA80pj+89qM/NN2
+0zkdAgCqJfYcSqLw+Tl8D2fzqdw0BdfCisizX5iK4U5t9+yfOjD8rtm/yQtCUuIdoyLGIG
+vxiCtsZX3ZpET3nE2AEbIjALCH52pqDaHpHGCrarrkVeVEPlSJvG8fhe4PkD3ETCAJynyu
+B6k0LmSeJY4/sAAAAGMTMzN3VwAQIDBAU=
+-----END OPENSSH PRIVATE KEY-----
+```
+
+4. Once I got the key I finally could add it to the SSH agent and use it to clone the private git repo from Bob's account:
+```bash
+chmod 600 id_rsa
+
+eval $(ssh-agent -s)
+ssh-add id_rsa
+
+git clone git@github.com:bob-193/1337up.git
+```
+5. Opening up the repo, I was greeted with an annoying readme.md:
+```text
+Hey, Tiffany! You will need to save this repo in your user space and implement changes we agreed earlier.
+```
+I figured this meant that I needed to clone Tiffany's version of the repo on their account, so I tried exploring the git logs, branches, configs, etc. to look for Tiffany's git user but found nothing.
+
+6. Eventually I realized that the SSH key was actually configured for Tiffany's GitHub account ('nitrofany') rather than Bob's account:
+```
+$ ssh -T git@github.com
+Hi nitrofany! You've successfully authenticated, but GitHub does not provide shell access.
+$ git clone git@github.com:nitrofany/1337up.git
+```
+7. This repo was nearly as barren as Bob's but fortunately it had an extensive git log that I could parse thru for the flag:
+```
+$ git log
+commit 0f2ad0478e2acc0536be49ecefcb5e12cf797228 (HEAD -> main, origin/main, origin/HEAD)
+Author: root <root@vmi1519856.contaboserver.net>
+Date:   Mon Aug 19 14:17:45 2024 +0200
+
+    update
+
+commit 5c18888418fd3f2a9d76cfd278b69c1f7c41ba4f
+Author: root <root@vmi1519856.contaboserver.net>
+Date:   Mon Aug 19 14:15:57 2024 +0200
+
+    update
+
+commit d127325918e586ed6bfbd7fff94e049378d5694b
+Author: root <root@vmi1519856.contaboserver.net>
+Date:   Mon Aug 19 14:14:02 2024 +0200
+
+    update
+
+...skipping...
+commit 0f2ad0478e2acc0536be49ecefcb5e12cf797228 (HEAD -> main, origin/main, origin/HEAD)
+Author: root <root@vmi1519856.contaboserver.net>
+Date:   Mon Aug 19 14:17:45 2024 +0200
+
+    update
+
+commit 5c18888418fd3f2a9d76cfd278b69c1f7c41ba4f
+Author: root <root@vmi1519856.contaboserver.net>
+Date:   Mon Aug 19 14:15:57 2024 +0200
+
+    update
+
+commit d127325918e586ed6bfbd7fff94e049378d5694b
+Author: root <root@vmi1519856.contaboserver.net>
+Date:   Mon Aug 19 14:14:02 2024 +0200
+
+    update
+
+commit 5f73d374eace947a4fb12a8e81ceb5a8ca849807
+Author: bob-193 <148455791+bob-193@users.noreply.github.com>
+Date:   Mon Aug 19 14:04:04 2024 +0300
+
+    init
+```
+
+8. Checking out commit 5c18888418fd3f2a9d76cfd278b69c1f7c41ba4f, I found an old submodule on nitrofany's account and cloning that revealed the flag :)
+```
+git checkout 5c18888418fd3f2a9d76cfd278b69c1f7c41ba4f
+git clone git@github.com:nitrofany/01189998819991197253.git
+```
+
+
