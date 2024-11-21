@@ -1,6 +1,6 @@
 # Crypto: Schrodinger's Pad
 
-This is a fairly simple puzzle that involves reversing a fault one-time pad encryption
+This is a fairly simple puzzle that involves reversing a faulty one-time pad encryption
 
 Let's walk thru the `server.py` code to understand the problem more:
 
@@ -122,7 +122,7 @@ Then we can begin reversing the encryption in the order mentioned above
 our_cipher_alive = reverse_cat_box_alive(our_cipher)
 our_cipher_dead = reverse_cat_box_dead(our_cipher)
 
-# Since we know our plaintext was all 'A's, we can XOR to get potential keys
+# Since we know our plaintext, we can XOR to get potential keys
 potential_key_alive = xor_bytes(known_plain, our_cipher_alive)
 potential_key_dead = xor_bytes(known_plain, our_cipher_dead)
 
