@@ -4,7 +4,7 @@ This is a fairly simple puzzle that involves reversing a faulty one-time pad enc
 
 Let's walk thru the `server.py` code to understand the problem more:
 
-**One-time Pad**
+## One-time Pad
 OTP is a type of encryption where each byte of the plaintext is XORed with a corresponding byte from a random key.
 
 ```python
@@ -28,7 +28,7 @@ def otp(p, k):
 ```
 
 
-**Cat Box 🐱**
+## Cat Box 🐱
 This is an additional transformation applied after OTP
 
 ```python
@@ -63,13 +63,13 @@ For Dead state:
 1. XOR with 0xCA
 2. Left rotate by 1
 
-**Server**
+## Server
 The server uses these algorithms in the following way:
 1. Shows us the flag encrypted with ONLY OTP (no cat box)
 2. Encrypts our input with OTP using **the same key**
 3. Then applies the cat box transformation
 
-## The Vulnerability
+# The Vulnerability
 
 The vulnerability lies in the server's choice are reusing the same key to encrypt both flag and our input:
 
